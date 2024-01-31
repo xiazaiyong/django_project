@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<body>
+    <h1>
+        IMS
+    </h1>
+    {% for good in goods_list %}
+        <h2>
+            id:{{ good.id }}
+            货品名称:{{ good.goods_text }}
+            分类:{{ good.category }}
+            数量:{{ good.num }}
+            单价:{{ good.price }}
+            {% for tag in good.tag.all %}
+                {% if tag %}
+                    {{ tag }}
+                {% endif %}
+            {% endfor %}
+            {% if good.notes %} 
+            备注:{{ good.notes }}
+            {% endif %}
+        </h2>
+    {% endfor %}
+</body>
+</html>
