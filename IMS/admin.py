@@ -2,8 +2,8 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 class goods_Admin(admin.ModelAdmin):#货品列表
-    list_display = ['goods_text','num','price','display_tags','dispaly_category']#列表显示的条件
-    search_fields = ['goods_text','num','price','notes','tag']#可用于搜索的关键字
+    list_display = ['goods_text','display_goods_brand','num','price','display_tags','dispaly_category']#列表显示的条件
+    search_fields = ['goods_text','num','price','notes','tag__tag_text']#可用于搜索的关键字
     list_editable = ['num','price']#可编辑字段
     list_per_page = 20
     autocomplete_fields = ['tag','category']
@@ -13,8 +13,12 @@ class goods_Admin(admin.ModelAdmin):#货品列表
     def dispaly_category(self, obj):
         return obj.category
 
+    def display_goods_brand(self, obj):
+        return obj.goods_brand
+
     display_tags.short_description = "标签"
     dispaly_category.short_description = "分类"
+    display_goods_brand.short_description = "品牌"
 
 class tag_Admin(admin.ModelAdmin):
     list_display = ['tag_text']

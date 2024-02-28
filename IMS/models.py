@@ -58,12 +58,14 @@ class picture(models.Model):#图片表
 class goods(models.Model):#货品表
     id = models.BigAutoField(primary_key = True)#id
     goods_text = models.CharField(max_length = 50, verbose_name = '货品名称', blank = True, null = False)#货品名称
+    goods_brand = models.ManyToManyField(to = brand, verbose_name = '品牌', blank = True,)#货品品牌
     picture = models.ManyToManyField(picture, verbose_name = '图片', blank = True)#图片
+    bar_code = models.BigIntegerField(default = 0 ,verbose_name = '条形码数据')#条形码数据
     category = models.ForeignKey(categorize, verbose_name = '分类', on_delete = models.SET_NULL, blank = True, null = True,
                                  related_name = 'sorting')#分类
     num = models.IntegerField(default = 0, verbose_name = '数量', blank = True, null = False)#数量
     price = models.CharField(max_length = 100, verbose_name = '价格', blank = True, null = False)#价格
-    tag = models.ManyToManyField(tag, verbose_name = '标签', blank = True)#标签
+    tag = models.ManyToManyField(tag, related_name= 'Tag',verbose_name = '标签', blank = True)#标签
     notes = models.CharField(max_length = 300, verbose_name = '备注', blank = True, null = True)#备注
 
     def __str__(self):
@@ -73,6 +75,3 @@ class goods(models.Model):#货品表
         verbose_name = '货品'
         verbose_name_plural = verbose_name
         db_table = 'invent'
-
-
-

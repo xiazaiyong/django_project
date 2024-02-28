@@ -1,25 +1,85 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<body>
-    <h1>
-        IMS
-    </h1>
-    {% for good in goods_list %}
-        <h2>
-            id:{{ good.id }}
-            货品名称:{{ good.goods_text }}
-            分类:{{ good.category }}
-            数量:{{ good.num }}
-            单价:{{ good.price }}
-            {% for tag in good.tag.all %}
-                {% if tag %}
-                    {{ tag }}
-                {% endif %}
-            {% endfor %}
-            {% if good.notes %} 
-            备注:{{ good.notes }}
-            {% endif %}
-        </h2>
-    {% endfor %}
-</body>
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>仓库管理系统IMS</title> 
+        <link href="{% static '/pic/仓库库存.svg' %}" rel="SHORTCUT ICON">
+        <link rel="stylesheet" href="{% static '/boostrap5/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/base.css' %}">
+        <link rel="stylesheet" href="{% static '/bootstrap-icons-1.10.4/font/bootstrap-icons.css' %}">
+        <link rel="stylesheet" href="{% static '/editor.md-master/css/editormd.preview.css' %}">
+        <script src="{% static '/boostrap5/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static '/js/popper.min.js' %}"></script>
+        <script src="{% static 'editor.md-master/editormd.js' %}"></script>
+        <script src="{% static 'editor.md-master/lib/marked.min.js' %}"></script>
+        <script src="{% static 'editor.md-master/lib/prettify.min.js' %}"></script>
+        <!--<script src="{% static '/js/JsBarcode.all.min.js' %}"></script>条形码生成库-->
+    </head>
+    <style>
+        @font-face {
+          font-family: 'Quicksand';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("{% static 'font/google-fonts.woff2' %}")format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+    </style>
+    <body>
+        <!--主容器-->
+        <div class="container">
+            <!--导航栏-->
+            <nav class="navbar navbar-expand-sm bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">
+                        <img src="{% static '/pic/仓库库存.svg' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        IMS
+                    </a>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="搜索仓库货品" aria-label="此次输入关键字以搜索仓库货品">
+                        <button class="btn btn-outline-success text-nowrap" type="submit">搜索</button>
+                    </form>
+                </div>
+            </nav>
+            <!--table 容器-->
+            <div class="container my-5">
+                <table class="table table-hover">
+                    <tread>
+                        <tr>
+                            <th>货品名称</th>
+                            <th id="BarCode_th">条形码</th>
+                            <th>分类</th>
+                            <th>数量</th>
+                            <th>单价</th>
+                            <th>标签</th>
+                            <th>备注</th>
+                        </tr>
+                    </tread>
+                    <tbody>
+                        {% for good in goods_list %}
+                        <tr>
+                            <td>{{ good.goods_text }}</td>
+                            <td>{{ good.bar_code }}</td>
+                            <td>{{ good.category }}</td>
+                            <td>{{ good.num }}</td>
+                            <td>{{ good.price }}</td>
+                            <td>{% if good.tag.all %}
+                                    {% for tag in good.tag.all %}
+                                    <span class="badge rounded-pill text-bg-primary">{{ tag }}</span>
+                                    {% endfor %}
+                                {% endif %}</td>
+                            <td>{% if good.notes %} 
+                                    {{ good.notes }}
+                                {% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                </table>
+            </div>
+            
+        <!-- 回到顶部 -->
+        <div class="back-top"><i class="bi bi-arrow-up"></i></div>
+        </div>
+    </body>
 </html>
